@@ -7,7 +7,7 @@
     "url": "https://github.com/ziad-saab/snapquanow-demo.git"
   },
   "source": {
-    "shasum": "ZS+pSrQq98313kdJkBAHax3CA7u4jUmibv68x/lpafI=",
+    "shasum": "QqoblW49ZP0rwJBCWs0JGuDadlla7J/fysdYPNUYNUs=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -17,6 +17,8 @@
       }
     }
   },
-  "initialPermissions": {},
+  "initialPermissions": {
+    "snap_confirm": {}
+  },
   "manifestVersion": "0.1"
 }

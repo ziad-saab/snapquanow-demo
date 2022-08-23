@@ -1,25 +1,25 @@
 <!doctype html>
 <html>
   <head>
-    <title>Hello, Snaps!</title>
+    <title>Snapquanow Demo</title>
     <link rel="icon" type="image/svg" href="./images/icon.svg"/>
+    <style type="text/css">
+      html, body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
   </head>
 
   <body>
-    <h1>Hello, Snaps!</h1>
+    <h1>
+      Snapquanow Demo
+    </h1>
     <details>
       <summary>Instructions</summary>
       <ul>
-        <li>First, click "Connect". Then, try out the other buttons!</li>
-        <li>Please note that:</li>
-        <ul>
-          <li>
-            The <code>snap.manifest.json</code> and <code>package.json</code> must be located in the server root directory..
-          </li>
-          <li>
-            The Snap bundle must be hosted at the location specified by the <code>location</code> field of <code>snap.manifest.json</code>.
-          </li>
-        </ul>
+        <li>First, click "Connect". This will install the Snapquanow Snap and request a permission to show confirmation dialogs.</li>
+        <li>Once the Snap is installed, click "GET ETH price in USD". This will display the current ETH price in USD.</li>
+        <li>Clicking "Stream ETH price in USD" will do nothing visible at the moment. Inspecting the Flask extension's <code>background.html</code> console will show logs of the streamed ETH price.</code></li>
       </ul>
     </details>
     <br/>
@@ -46,6 +46,7 @@
         method: 'wallet_enable',
         params: [{
           wallet_snap: { [snapId]: {} },
+          snap_confirm: {}
         }]
       })
     }
@@ -58,7 +59,13 @@
             method: 'getEthereumPrice'
           }]
         })
-        alert(`The current ETH price in USD is ${JSON.stringify(response)}`);
+        await ethereum.request({
+          method: 'snap_confirm',
+          params: [{
+            prompt: 'ETH price',
+            description: `The current ETH price in USD is ${JSON.stringify(response)}`
+          }]
+        })
       } catch (err) {
         console.error(err)
         alert('Problem happened: ' + err.message || err)

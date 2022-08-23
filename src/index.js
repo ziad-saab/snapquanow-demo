@@ -4,7 +4,7 @@ const ensureSnapquanowIsInstalled = async () => {
     params: [
       {
         wallet_snap: {
-          'local:http://localhost:8080/': {},
+          'npm:snapquanow': {},
         },
       },
     ],
@@ -16,7 +16,7 @@ const callSnapquanow = async (method, params) => {
   return wallet.request({
     method: 'wallet_invokeSnap',
     params: [
-      'local:http://localhost:8080/',
+      'npm:snapquanow',
       {
         method,
         params,
@@ -47,7 +47,7 @@ module.exports.onRpcRequest = async ({ request }) => {
     }
     case 'receiveEthereumPrice':
       console.log('Received ETH price', request.params);
-      return false;
+      return Math.random() > 0.1; // 10% chance of stopping the price stream
     default:
       throw new Error('Method not found.');
   }
