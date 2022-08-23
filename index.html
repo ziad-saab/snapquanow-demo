@@ -25,17 +25,20 @@
     <br/>
 
     <button class="connect">Connect</button>
-    <button class="sendHello">Send Hello</button>
+    <button class="getEthPrice">Get ETH price in USD</button>
+    <button class="streamEthPrice">Stream ETH price in USD</button>
   </body>
 
   <script>
     const snapId = `local:${window.location.href}`;
 
     const connectButton = document.querySelector('button.connect')
-    const sendButton = document.querySelector('button.sendHello')
+    const getEthPriceButton = document.querySelector('button.getEthPrice')
+    const streamEthPriceButton = document.querySelector('button.streamEthPrice');
 
     connectButton.addEventListener('click', connect)
-    sendButton.addEventListener('click', send)
+    getEthPriceButton.addEventListener('click', getEthPrice)
+    streamEthPriceButton.addEventListener('click', streamEthPrice)
 
     // here we get permissions to interact with and install the snap
     async function connect () {
@@ -47,13 +50,27 @@
       })
     }
 
-    // here we call the snap's "hello" method
-    async function send () {
+    async function getEthPrice() {
       try {
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
           params: [snapId, {
-            method: 'hello'
+            method: 'getEthereumPrice'
+          }]
+        })
+        alert(`The current ETH price in USD is ${JSON.stringify(response)}`);
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function streamEthPrice() {
+      try {
+        await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'monitorEthereumPrice'
           }]
         })
       } catch (err) {
